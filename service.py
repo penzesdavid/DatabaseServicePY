@@ -1,55 +1,37 @@
 import random
+import json
 import string
 
-users_datas = []
-new_users = []
+fajl = "db.json"
 
-def add(users_datas, new_users):    
+def add(datas):   
     new_u = {
         "user": input("Add new user: ").lower(),
-        "key": ''.join(random.choices(string.ascii_letters+ string.digits, k=8)),
+        "key": ''.join(random.choices(string.ascii_letters + string.digits, k=8)),
     }
-    users_datas.append(new_u)
-    new_users.append(new_u)
+    datas.append(new_u)
     print(f"Added the new user as: {new_u["user"]} with this key: {new_u["key"]}")
-
-def  finalize(db, new_users):
-    contQ = input("Do you want to confirm the saves? (y/n): ").lower()
-    if contQ == "y":
-        for u in new_users:
-            db.write(u)
-        print("All user is saved.")
-    else:
-        db.close()
-        print("No changes in the file.")
-
+    with open(fajl, "w", encoding="UTF-8") as f:
+        json.dump(datas, f, indent=4, ensure_ascii=False)
         
 
 def main():
-    db = open("db.txt",encoding="UTF-8")
-    db.readline()
-    for lines in db:
-        datas = lines.strip().split(";")
-        u = {
-            "user": datas[0],
-            "key": datas[1],
-        }
-        users_datas.append(u)
+    with open(fajl, "r", encoding="UTF-8") as f:
+        try:
+            datas = json.load(f)
+        except json.JSONDecodeError:
+            datas = []
 
-    for u in users_datas:
-        print(u)
-
+    if datas: 
+        for elem in datas:
+            for kulcs, ertek in elem.items():
+                print(f"{kulcs}: {ertek}", end="  ")
+            print()
+  
     contQ = input("Do you want to add data? (y/n): ").lower()
     if contQ == "y":
-        add(users_datas, new_users)
-        finalize(db, new_users)
-
+        add(datas)
     else:
-        for u in users_datas:
-            print(u)
-        print()
-        db.close()
         print("No changes in the file.")
-    
 
 main()

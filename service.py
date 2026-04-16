@@ -39,6 +39,25 @@ def delete(datas):
         else:
             break
 
+def newkey(datas):
+    while True:
+        contQ = input("Do you want a new key for user (y/n): ").lower()
+        if contQ == "y":
+            user_name = input("user: ").lower()
+            if user_name:
+                for d in datas:
+                    if d["user"] == user_name:
+                        print(f"Current key for this user: {d["key"]}")
+                        new = input("Input the custom key: ")
+                        if new:
+                            d["key"] = new
+                            #error: not working because i dont do to write over the existed file
+            else:
+                print("User not found.")
+        else:
+            break
+    
+
 def main():
     with open(fajl, "r", encoding="UTF-8") as f:
         try:
@@ -55,11 +74,13 @@ def main():
   
     print(datas)
     print()
-    contQ = input("Add data or delete? (add/del) or Exit: ").lower()
+    contQ = input("Add data or delete? (add/del/get new key (key!get) ) or Exit: ").lower()
     if contQ == "add":
         add(datas)
     elif contQ == "del":
         delete(datas)
+    elif contQ == "key!get":
+        newkey(datas)
     else:
         print("No changes in the file.")
 

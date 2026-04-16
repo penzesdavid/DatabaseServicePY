@@ -1,14 +1,10 @@
 [
     {
-        "user": "admin",
-        "key": "A6a4c1Zvts"
-    },
-    {
-        "user": "david",
-        "key": "9ue3wmyUAe"
-    },
-    {
         "user": "secretaccount",
         "key": "PaVcKrxmp4"
+    },
+    {
+        "user": "david-work",
+        "key": "cq7MWBQCGS"
     }
 ]

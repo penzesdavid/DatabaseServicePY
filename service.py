@@ -22,9 +22,22 @@ def add(datas):
             print("All changes is saved.")
             break
 
-def delete():
-    pass
-        
+def delete(datas):
+    while True:
+        contQ = input("Do you want to delete another user (y/n): ").lower()
+        if contQ == "y":
+            user_name = input("Delete user: ").lower()
+            if user_name:
+                for d in datas:
+                    if d["user"] == user_name:
+                        datas.remove(d)
+                        print(f"Deleted the user: {user_name}")
+                        with open(fajl, "w", encoding="UTF-8") as f:
+                            json.dump(datas, f, indent=4, ensure_ascii=False)
+            else:
+                print("User not found.")
+        else:
+            break
 
 def main():
     with open(fajl, "r", encoding="UTF-8") as f:
@@ -40,12 +53,13 @@ def main():
                 print(f"{user}: {key}", end="  ")
             print()
   
+    print(datas)
     print()
-    contQ = input("Add data or delete? (add/del): ").lower()
+    contQ = input("Add data or delete? (add/del) or Exit: ").lower()
     if contQ == "add":
         add(datas)
     elif contQ == "del":
-        pass
+        delete(datas)
     else:
         print("No changes in the file.")
 
